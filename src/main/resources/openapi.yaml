@@ -1,0 +1,848 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: distsys@forgesphere.example.com
+    name: ForgeSphere Distributed Systems Team
+  description: "Distributed transaction coordination using the Saga pattern. Manages\
+    \ \nlong-running business transactions that span multiple microservices, \nwith\
+    \ automatic compensation (rollback) when any step fails. Eliminates \nthe need\
+    \ for distributed 2PC locks by orchestrating a series of local \ntransactions\
+    \ with explicit compensation logic for each step.\n"
+  title: Saga Orchestrator
+  version: 1.0.0
+servers:
+- description: Production Server
+  url: https://saga-orchestrator.forgesphere.lightning.com/v1
+- description: Local Development Server
+  url: http://localhost:8136/v1
+security:
+- bearerAuth: []
+tags:
+- description: Define and execute distributed transaction sagas.
+  name: Sagas
+- description: Monitor and manage running saga instances.
+  name: Executions
+paths:
+  /sagas:
+    post:
+      description: "Defines a saga — an ordered sequence of steps across multiple\
+        \ \nmicroservices, each with a forward action and a compensating action. \n\
+        The orchestrator executes steps in order, and if any step fails, \nruns compensations\
+        \ in reverse order to undo the partial work.\n"
+      operationId: createSaga
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createSaga_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Saga"
+          description: Saga defined successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Invalid request payload or missing required fields.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: A saga with this name already exists.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Internal server error.
+      summary: Define a new saga (distributed transaction)
+      tags:
+      - Sagas
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: Sagas
+  /executions:
+    post:
+      description: "Begins executing a saga with the provided input context. The \n\
+        orchestrator runs each step in order, passing outputs from earlier \nsteps\
+        \ to later ones. Returns immediately with an execution ID — \nthe saga runs\
+        \ asynchronously.\n"
+      operationId: startSagaExecution
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/startSagaExecution_request"
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SagaExecution"
+          description: Saga execution accepted and started.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Invalid request payload or missing required fields.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Saga not found.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SagaExecution"
+          description: Duplicate idempotency key detected — returning existing execution.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Internal server error.
+      summary: Start a new saga execution
+      tags:
+      - Executions
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: Executions
+  /executions/{executionId}:
+    get:
+      description: "Returns the current state of a saga execution — which step is\
+        \ \nrunning, which have completed, outputs captured so far, and any \ncompensations\
+        \ that have run. Safe to poll every 2 seconds during \nactive sagas.\n"
+      operationId: getSagaExecution
+      parameters:
+      - description: Unique identifier of the saga execution.
+        example: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+        explode: false
+        in: path
+        name: executionId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Include per-step outputs in the response.
+        example: true
+        explode: true
+        in: query
+        name: includeStepOutputs
+        required: false
+        schema:
+          default: true
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SagaExecution"
+          description: Saga execution status retrieved successfully.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Saga or execution ID not found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Internal server error.
+      summary: Get the live status of a saga execution
+      tags:
+      - Executions
+      x-accepts: application/json
+      x-tags:
+      - tag: Executions
+  /executions/{executionId}/cancel:
+    post:
+      description: "Manually cancels a running saga and triggers compensation for\
+        \ all \ncompleted steps in reverse order. Used when a business decision \n\
+        requires aborting a saga that is still in progress (e.g., customer \ncancels\
+        \ order, upstream service detects fraud).\n"
+      operationId: cancelSagaExecution
+      parameters:
+      - description: Unique identifier of the saga execution.
+        example: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+        explode: false
+        in: path
+        name: executionId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/cancelSagaExecution_request"
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SagaExecution"
+          description: Cancellation accepted and compensations queued.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Invalid request payload or missing required fields.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Saga or execution ID not found.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Saga is not in a cancellable state.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Internal server error.
+      summary: Cancel a running saga and trigger compensations
+      tags:
+      - Executions
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: Executions
+components:
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Invalid request payload or missing required fields.
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Saga or execution ID not found.
+    InternalError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Internal server error.
+  schemas:
+    Saga:
+      example:
+        owner: commerce-team
+        successRatePercent: 98.7
+        executionCount30d: 4520
+        sagaId: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+        description: "Complete order fulfillment across payment, inventory, and shipping."
+        steps:
+        - hasCompensation: true
+          stepName: reserve-inventory
+          timeoutSeconds: 30
+          stepNumber: 1
+          serviceName: inventory-service
+        - hasCompensation: true
+          stepName: reserve-inventory
+          timeoutSeconds: 30
+          stepNumber: 1
+          serviceName: inventory-service
+        sagaName: order-to-cash-flow
+        maxTotalDurationSeconds: 300
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        notifyChannels:
+        - SLACK
+        failurePolicy: COMPENSATE_ALL
+        averageDurationSeconds: 12
+        status: ACTIVE
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        sagaId:
+          example: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+          format: uuid
+          type: string
+        sagaName:
+          example: order-to-cash-flow
+          type: string
+        description:
+          example: "Complete order fulfillment across payment, inventory, and shipping."
+          type: string
+        status:
+          enum:
+          - ACTIVE
+          - PAUSED
+          - DEPRECATED
+          - ARCHIVED
+          example: ACTIVE
+          type: string
+        steps:
+          items:
+            $ref: "#/components/schemas/Saga_steps_inner"
+          type: array
+        failurePolicy:
+          enum:
+          - COMPENSATE_ALL
+          - COMPENSATE_FAILED_STEP
+          - RETRY_THEN_COMPENSATE
+          - ABORT_NO_COMPENSATION
+          example: COMPENSATE_ALL
+          type: string
+        maxTotalDurationSeconds:
+          example: 300
+          type: integer
+        owner:
+          example: commerce-team
+          type: string
+        notifyChannels:
+          example:
+          - SLACK
+          items:
+            enum:
+            - EMAIL
+            - SLACK
+            - PAGERDUTY
+            - WEBHOOK
+            type: string
+          type: array
+        executionCount30d:
+          example: 4520
+          type: integer
+        successRatePercent:
+          example: 98.7
+          format: double
+          type: number
+        averageDurationSeconds:
+          example: 12
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - description
+      - failurePolicy
+      - sagaId
+      - sagaName
+      - status
+      - steps
+      type: object
+    SagaExecution:
+      example:
+        auditReference: audit://saga-orchestrator/exec-a1b2c3d4
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        durationSeconds: 8
+        cancellationReason: cancellationReason
+        idempotencyKey: order-ORD-12345-2026-10-09
+        sagaId: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+        totalSteps: 4
+        startedAt: 2000-01-23T04:56:07.000+00:00
+        steps:
+        - completedAt: 2000-01-23T04:56:07.000+00:00
+          responseBody:
+            reservationId: RES-98765
+          compensationStatus: NOT_REQUIRED
+          compensationDurationMs: 0
+          startedAt: 2000-01-23T04:56:07.000+00:00
+          serviceName: inventory-service
+          responseStatus: 201
+          error: error
+          compensationError: compensationError
+          stepName: reserve-inventory
+          requestUrl: https://inventory-service.internal/v1/reservations
+          stepNumber: 1
+          durationMs: 245
+          status: COMPLETED
+          attempts: 1
+        - completedAt: 2000-01-23T04:56:07.000+00:00
+          responseBody:
+            reservationId: RES-98765
+          compensationStatus: NOT_REQUIRED
+          compensationDurationMs: 0
+          startedAt: 2000-01-23T04:56:07.000+00:00
+          serviceName: inventory-service
+          responseStatus: 201
+          error: error
+          compensationError: compensationError
+          stepName: reserve-inventory
+          requestUrl: https://inventory-service.internal/v1/reservations
+          stepNumber: 1
+          durationMs: 245
+          status: COMPLETED
+          attempts: 1
+        outputContext:
+          reservationId: RES-98765
+          paymentId: PAY-11111
+        currentStep: 2
+        executionId: a1b2c3d4-e5f6-7890-1234-567890abcdef
+        sagaName: order-to-cash-flow
+        input:
+          orderId: ORD-12345
+          sku: SKU-ABC
+          quantity: 2
+        failureReason: failureReason
+        progressPercent: 50
+        status: RUNNING
+      properties:
+        executionId:
+          example: a1b2c3d4-e5f6-7890-1234-567890abcdef
+          format: uuid
+          type: string
+        sagaId:
+          example: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+          format: uuid
+          type: string
+        sagaName:
+          example: order-to-cash-flow
+          type: string
+        status:
+          enum:
+          - QUEUED
+          - RUNNING
+          - COMPLETED
+          - COMPENSATING
+          - COMPENSATED
+          - FAILED
+          - CANCELLED
+          - TIMED_OUT
+          example: RUNNING
+          type: string
+        idempotencyKey:
+          example: order-ORD-12345-2026-10-09
+          type: string
+        input:
+          additionalProperties: true
+          example:
+            orderId: ORD-12345
+            sku: SKU-ABC
+            quantity: 2
+          type: object
+        currentStep:
+          description: The step currently executing (1-indexed).
+          example: 2
+          type: integer
+        totalSteps:
+          example: 4
+          type: integer
+        progressPercent:
+          example: 50
+          type: integer
+        startedAt:
+          format: date-time
+          type: string
+        completedAt:
+          format: date-time
+          type: string
+        durationSeconds:
+          example: 8
+          type: integer
+        steps:
+          description: Detailed state of each step.
+          items:
+            $ref: "#/components/schemas/SagaExecution_steps_inner"
+          type: array
+        outputContext:
+          additionalProperties: true
+          description: Accumulated outputs from completed steps.
+          example:
+            reservationId: RES-98765
+            paymentId: PAY-11111
+          type: object
+        failureReason:
+          type: string
+        cancellationReason:
+          type: string
+        auditReference:
+          example: audit://saga-orchestrator/exec-a1b2c3d4
+          type: string
+      required:
+      - executionId
+      - sagaId
+      - sagaName
+      - startedAt
+      - status
+      - steps
+      type: object
+    ErrorResponse:
+      properties:
+        status:
+          example: 409
+          type: integer
+        errorCode:
+          example: SAGA_ALREADY_EXISTS
+          type: string
+        message:
+          example: A saga with name order-to-cash-flow already exists.
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+        path:
+          example: /v1/sagas
+          type: string
+        serviceTransactionId:
+          example: 523f52b2-64a5-465e-b245-3efbe78f70ae
+          type: string
+      required:
+      - message
+      - path
+      - status
+      - timestamp
+      type: object
+    createSaga_request_steps_inner_forwardAction:
+      properties:
+        method:
+          enum:
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+          example: POST
+          type: string
+        url:
+          example: https://inventory-service.internal/v1/reservations
+          type: string
+        headers:
+          additionalProperties:
+            type: string
+          example:
+            Content-Type: application/json
+          type: object
+        bodyTemplate:
+          additionalProperties: true
+          example:
+            orderId: "${saga.input.orderId}"
+            sku: "${saga.input.sku}"
+            quantity: "${saga.input.quantity}"
+          type: object
+        timeoutSeconds:
+          example: 30
+          type: integer
+        retries:
+          example: 3
+          type: integer
+      required:
+      - method
+      - url
+      type: object
+    createSaga_request_steps_inner_compensationAction:
+      properties:
+        method:
+          enum:
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+          example: DELETE
+          type: string
+        url:
+          example: "https://inventory-service.internal/v1/reservations/${steps.reserve-inventory.response.reservationId}"
+          type: string
+        bodyTemplate:
+          additionalProperties: true
+          type: object
+        timeoutSeconds:
+          example: 30
+          type: integer
+      required:
+      - method
+      - url
+      type: object
+    createSaga_request_steps_inner:
+      properties:
+        stepNumber:
+          example: 1
+          type: integer
+        stepName:
+          example: reserve-inventory
+          type: string
+        serviceName:
+          example: inventory-service
+          type: string
+        forwardAction:
+          $ref: "#/components/schemas/createSaga_request_steps_inner_forwardAction"
+        compensationAction:
+          $ref: "#/components/schemas/createSaga_request_steps_inner_compensationAction"
+        outputMapping:
+          additionalProperties:
+            type: string
+          description: Extract values from the response for use in later steps.
+          example:
+            reservationId: $.id
+          type: object
+      required:
+      - compensationAction
+      - forwardAction
+      - serviceName
+      - stepName
+      - stepNumber
+      type: object
+    createSaga_request:
+      properties:
+        sagaName:
+          description: Unique name for the saga.
+          example: order-to-cash-flow
+          type: string
+        description:
+          description: What business process this saga represents.
+          example: "Complete order fulfillment across payment, inventory, and shipping."
+          type: string
+        steps:
+          description: Ordered list of saga steps. Each step needs a forward action
+            and a compensation.
+          items:
+            $ref: "#/components/schemas/createSaga_request_steps_inner"
+          type: array
+        failurePolicy:
+          description: How to handle step failures.
+          enum:
+          - COMPENSATE_ALL
+          - COMPENSATE_FAILED_STEP
+          - RETRY_THEN_COMPENSATE
+          - ABORT_NO_COMPENSATION
+          example: COMPENSATE_ALL
+          type: string
+        maxTotalDurationSeconds:
+          description: Saga-level timeout.
+          example: 300
+          type: integer
+        owner:
+          example: commerce-team
+          type: string
+        notifyChannels:
+          description: Channels to notify on saga failures.
+          example:
+          - SLACK
+          items:
+            enum:
+            - EMAIL
+            - SLACK
+            - PAGERDUTY
+            - WEBHOOK
+            type: string
+          type: array
+      required:
+      - description
+      - failurePolicy
+      - sagaName
+      - steps
+      type: object
+    startSagaExecution_request:
+      properties:
+        sagaName:
+          description: Name of the saga to execute.
+          example: order-to-cash-flow
+          type: string
+        input:
+          additionalProperties: true
+          description: Input context for the saga.
+          example:
+            orderId: ORD-12345
+            sku: SKU-ABC
+            quantity: 2
+            customerId: CUST-789
+            amount: 149.99
+          type: object
+        idempotencyKey:
+          description: Client-generated key to prevent duplicate executions.
+          example: order-ORD-12345-2026-10-09
+          type: string
+        priority:
+          default: NORMAL
+          enum:
+          - LOW
+          - NORMAL
+          - HIGH
+          - URGENT
+          example: HIGH
+          type: string
+        notifyChannels:
+          description: Channels to notify on completion or failure.
+          example:
+          - SLACK
+          items:
+            enum:
+            - EMAIL
+            - SLACK
+            - PAGERDUTY
+            - WEBHOOK
+            type: string
+          type: array
+      required:
+      - idempotencyKey
+      - input
+      - sagaName
+      type: object
+    cancelSagaExecution_request:
+      properties:
+        reason:
+          description: Reason for the cancellation (min 15 chars).
+          example: Customer requested order cancellation before shipment.
+          minLength: 15
+          type: string
+        compensateCompletedSteps:
+          default: true
+          description: "If true, run compensation for completed steps."
+          example: true
+          type: boolean
+        notifyChannels:
+          description: Channels to notify of the cancellation.
+          example:
+          - SLACK
+          items:
+            enum:
+            - EMAIL
+            - SLACK
+            - PAGERDUTY
+            - WEBHOOK
+            type: string
+          type: array
+      required:
+      - reason
+      type: object
+    Saga_steps_inner:
+      example:
+        hasCompensation: true
+        stepName: reserve-inventory
+        timeoutSeconds: 30
+        stepNumber: 1
+        serviceName: inventory-service
+      properties:
+        stepNumber:
+          example: 1
+          type: integer
+        stepName:
+          example: reserve-inventory
+          type: string
+        serviceName:
+          example: inventory-service
+          type: string
+        hasCompensation:
+          example: true
+          type: boolean
+        timeoutSeconds:
+          example: 30
+          type: integer
+      required:
+      - serviceName
+      - stepName
+      - stepNumber
+      type: object
+    SagaExecution_steps_inner:
+      example:
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        responseBody:
+          reservationId: RES-98765
+        compensationStatus: NOT_REQUIRED
+        compensationDurationMs: 0
+        startedAt: 2000-01-23T04:56:07.000+00:00
+        serviceName: inventory-service
+        responseStatus: 201
+        error: error
+        compensationError: compensationError
+        stepName: reserve-inventory
+        requestUrl: https://inventory-service.internal/v1/reservations
+        stepNumber: 1
+        durationMs: 245
+        status: COMPLETED
+        attempts: 1
+      properties:
+        stepNumber:
+          example: 1
+          type: integer
+        stepName:
+          example: reserve-inventory
+          type: string
+        serviceName:
+          example: inventory-service
+          type: string
+        status:
+          enum:
+          - PENDING
+          - RUNNING
+          - COMPLETED
+          - FAILED
+          - COMPENSATING
+          - COMPENSATED
+          - SKIPPED
+          - TIMED_OUT
+          example: COMPLETED
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+        completedAt:
+          format: date-time
+          type: string
+        durationMs:
+          example: 245
+          type: integer
+        attempts:
+          example: 1
+          type: integer
+        requestUrl:
+          example: https://inventory-service.internal/v1/reservations
+          type: string
+        responseStatus:
+          example: 201
+          type: integer
+        responseBody:
+          additionalProperties: true
+          example:
+            reservationId: RES-98765
+          type: object
+        error:
+          type: string
+        compensationStatus:
+          enum:
+          - NOT_REQUIRED
+          - PENDING
+          - RUNNING
+          - SUCCEEDED
+          - FAILED
+          - NOT_ATTEMPTED
+          example: NOT_REQUIRED
+          type: string
+        compensationDurationMs:
+          type: integer
+        compensationError:
+          type: string
+      required:
+      - serviceName
+      - status
+      - stepName
+      - stepNumber
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      description: JWT token issued to services or engineers.
+      scheme: bearer
+      type: http
