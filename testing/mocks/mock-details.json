@@ -1,0 +1,98 @@
+{
+  "artifactId" : "saga-orchestrator",
+  "resourceId" : "6ac8bc6155bde32a4ffb35e7",
+  "generatedAt" : "2026-10-09T10:08:59.362756798Z",
+  "mock" : {
+    "id" : "5dcfcb87-5aeb-4faf-8280-ffb2a5407532",
+    "microserviceId" : null,
+    "specMetadataId" : "6ac8bcb22c307d73fbc3a0ba",
+    "apiSpecName" : "Saga Orchestrator",
+    "name" : "mock-saga-orchestrator",
+    "mockServiceName" : "mock-saga-orchestrator",
+    "mockServerUrl" : "https://forgesphere.probestack.io/mock-api/v1/api/mocks/mock-97017a96",
+    "mockUrl" : "mock-97017a96",
+    "isPrivate" : false,
+    "delayMs" : 0,
+    "responseLatencyMs" : 0,
+    "requestCount" : 4,
+    "createdAt" : "2026-10-09T10:06:56.826Z",
+    "updatedAt" : "2026-10-09T10:06:59.433Z"
+  },
+  "endpoints" : [ {
+    "id" : "cc9a11ca-e60e-4c6a-8684-bc91ed761756",
+    "isActive" : true,
+    "request" : {
+      "method" : "POST",
+      "path" : "/sagas",
+      "bodySample" : "{\"sagaName\":\"order-to-cash-flow\",\"description\":\"Complete order fulfillment across payment, inventory, and shipping.\",\"steps\":[{\"stepNumber\":1,\"stepName\":\"reserve-inventory\",\"serviceName\":\"inventory-service\",\"forwardAction\":{\"method\":\"POST\",\"url\":\"https://inventory-service.internal/v1/reservations\",\"headers\":{\"Content-Type\":\"application/json\"},\"bodyTemplate\":{\"orderId\":\"${saga.input.orderId}\",\"sku\":\"${saga.input.sku}\",\"quantity\":\"${saga.input.quantity}\"},\"timeoutSeconds\":30,\"retries\":3},\"compensationAction\":{\"method\":\"DELETE\",\"url\":\"https://inventory-service.internal/v1/reservations/${steps.reserve-inventory.response.reservationId}\",\"bodyTemplate\":{},\"timeoutSeconds\":30},\"outputMapping\":{\"reservationId\":\"$.id\"}}],\"failurePolicy\":\"COMPENSATE_ALL\",\"maxTotalDurationSeconds\":300,\"owner\":\"commerce-team\",\"notifyChannels\":[\"SLACK\"]}",
+      "validationMode" : "NONE",
+      "validationSchema" : null,
+      "validateMethod" : true
+    },
+    "response" : {
+      "status" : 201,
+      "headers" : {
+        "Content-Type" : "application/json"
+      },
+      "body" : "{\"sagaId\":\"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\"sagaName\":\"order-to-cash-flow\",\"description\":\"Complete order fulfillment across payment, inventory, and shipping.\",\"status\":\"ACTIVE\",\"steps\":[{\"stepNumber\":1,\"stepName\":\"reserve-inventory\",\"serviceName\":\"inventory-service\",\"hasCompensation\":true,\"timeoutSeconds\":30}],\"failurePolicy\":\"COMPENSATE_ALL\",\"maxTotalDurationSeconds\":300,\"owner\":\"commerce-team\",\"notifyChannels\":[\"SLACK\"],\"executionCount30d\":4520,\"successRatePercent\":98.7,\"averageDurationSeconds\":12,\"createdAt\":\"2024-01-01T00:00:00Z\",\"updatedAt\":\"2024-01-01T00:00:00Z\"}",
+      "delayMs" : 0
+    }
+  }, {
+    "id" : "00edbf94-c648-4b22-962b-291ca8b4a20b",
+    "isActive" : true,
+    "request" : {
+      "method" : "POST",
+      "path" : "/executions",
+      "bodySample" : "{\"sagaName\":\"order-to-cash-flow\",\"input\":{\"orderId\":\"ORD-12345\",\"sku\":\"SKU-ABC\",\"quantity\":2,\"customerId\":\"CUST-789\",\"amount\":149.99},\"idempotencyKey\":\"order-ORD-12345-2026-10-09\",\"priority\":\"HIGH\",\"notifyChannels\":[\"SLACK\"]}",
+      "validationMode" : "NONE",
+      "validationSchema" : null,
+      "validateMethod" : true
+    },
+    "response" : {
+      "status" : 202,
+      "headers" : {
+        "Content-Type" : "application/json"
+      },
+      "body" : "{\"executionId\":\"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\"sagaId\":\"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\"sagaName\":\"order-to-cash-flow\",\"status\":\"RUNNING\",\"idempotencyKey\":\"order-ORD-12345-2026-10-09\",\"input\":{\"orderId\":\"ORD-12345\",\"sku\":\"SKU-ABC\",\"quantity\":2},\"currentStep\":2,\"totalSteps\":4,\"progressPercent\":50,\"startedAt\":\"2024-01-01T00:00:00Z\",\"completedAt\":\"2024-01-01T00:00:00Z\",\"durationSeconds\":8,\"steps\":[{\"stepNumber\":1,\"stepName\":\"reserve-inventory\",\"serviceName\":\"inventory-service\",\"status\":\"COMPLETED\",\"startedAt\":\"2024-01-01T00:00:00Z\",\"completedAt\":\"2024-01-01T00:00:00Z\",\"durationMs\":245,\"attempts\":1,\"requestUrl\":\"https://inventory-service.internal/v1/reservations\",\"responseStatus\":201,\"responseBody\":{\"reservationId\":\"RES-98765\"},\"error\":\"string\",\"compensationStatus\":\"NOT_REQUIRED\",\"compensationDurationMs\":0,\"compensationError\":\"string\"}],\"outputContext\":{\"reservationId\":\"RES-98765\",\"paymentId\":\"PAY-11111\"},\"failureReason\":\"string\",\"cancellationReason\":\"string\",\"auditReference\":\"audit://saga-orchestrator/exec-a1b2c3d4\"}",
+      "delayMs" : 0
+    }
+  }, {
+    "id" : "02eb1acf-4690-41ab-8ba2-484c1701a9c5",
+    "isActive" : true,
+    "request" : {
+      "method" : "GET",
+      "path" : "/executions/{executionId}",
+      "bodySample" : null,
+      "validationMode" : "NONE",
+      "validationSchema" : null,
+      "validateMethod" : true
+    },
+    "response" : {
+      "status" : 200,
+      "headers" : {
+        "Content-Type" : "application/json"
+      },
+      "body" : "{\"executionId\":\"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\"sagaId\":\"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\"sagaName\":\"order-to-cash-flow\",\"status\":\"RUNNING\",\"idempotencyKey\":\"order-ORD-12345-2026-10-09\",\"input\":{\"orderId\":\"ORD-12345\",\"sku\":\"SKU-ABC\",\"quantity\":2},\"currentStep\":2,\"totalSteps\":4,\"progressPercent\":50,\"startedAt\":\"2024-01-01T00:00:00Z\",\"completedAt\":\"2024-01-01T00:00:00Z\",\"durationSeconds\":8,\"steps\":[{\"stepNumber\":1,\"stepName\":\"reserve-inventory\",\"serviceName\":\"inventory-service\",\"status\":\"COMPLETED\",\"startedAt\":\"2024-01-01T00:00:00Z\",\"completedAt\":\"2024-01-01T00:00:00Z\",\"durationMs\":245,\"attempts\":1,\"requestUrl\":\"https://inventory-service.internal/v1/reservations\",\"responseStatus\":201,\"responseBody\":{\"reservationId\":\"RES-98765\"},\"error\":\"string\",\"compensationStatus\":\"NOT_REQUIRED\",\"compensationDurationMs\":0,\"compensationError\":\"string\"}],\"outputContext\":{\"reservationId\":\"RES-98765\",\"paymentId\":\"PAY-11111\"},\"failureReason\":\"string\",\"cancellationReason\":\"string\",\"auditReference\":\"audit://saga-orchestrator/exec-a1b2c3d4\"}",
+      "delayMs" : 0
+    }
+  }, {
+    "id" : "dcc5e9fb-e184-48e6-9bb8-1f66249d4236",
+    "isActive" : true,
+    "request" : {
+      "method" : "POST",
+      "path" : "/executions/{executionId}/cancel",
+      "bodySample" : "{\"reason\":\"Customer requested order cancellation before shipment.\",\"compensateCompletedSteps\":true,\"notifyChannels\":[\"SLACK\"]}",
+      "validationMode" : "NONE",
+      "validationSchema" : null,
+      "validateMethod" : true
+    },
+    "response" : {
+      "status" : 202,
+      "headers" : {
+        "Content-Type" : "application/json"
+      },
+      "body" : "{\"executionId\":\"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\"sagaId\":\"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\"sagaName\":\"order-to-cash-flow\",\"status\":\"RUNNING\",\"idempotencyKey\":\"order-ORD-12345-2026-10-09\",\"input\":{\"orderId\":\"ORD-12345\",\"sku\":\"SKU-ABC\",\"quantity\":2},\"currentStep\":2,\"totalSteps\":4,\"progressPercent\":50,\"startedAt\":\"2024-01-01T00:00:00Z\",\"completedAt\":\"2024-01-01T00:00:00Z\",\"durationSeconds\":8,\"steps\":[{\"stepNumber\":1,\"stepName\":\"reserve-inventory\",\"serviceName\":\"inventory-service\",\"status\":\"COMPLETED\",\"startedAt\":\"2024-01-01T00:00:00Z\",\"completedAt\":\"2024-01-01T00:00:00Z\",\"durationMs\":245,\"attempts\":1,\"requestUrl\":\"https://inventory-service.internal/v1/reservations\",\"responseStatus\":201,\"responseBody\":{\"reservationId\":\"RES-98765\"},\"error\":\"string\",\"compensationStatus\":\"NOT_REQUIRED\",\"compensationDurationMs\":0,\"compensationError\":\"string\"}],\"outputContext\":{\"reservationId\":\"RES-98765\",\"paymentId\":\"PAY-11111\"},\"failureReason\":\"string\",\"cancellationReason\":\"string\",\"auditReference\":\"audit://saga-orchestrator/exec-a1b2c3d4\"}",
+      "delayMs" : 0
+    }
+  } ]
+}

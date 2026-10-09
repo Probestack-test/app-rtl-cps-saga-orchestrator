@@ -1,0 +1,714 @@
+{
+  "info" : {
+    "_postman_id" : "badc5a33-dc8e-41c2-9a2c-0862b7502af7",
+    "name" : "Saga Orchestrator",
+    "description" : "Generated Postman collection for saga-orchestrator",
+    "schema" : "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable" : [ {
+    "key" : "baseUrl",
+    "value" : "http://localhost:8080",
+    "type" : "string"
+  }, {
+    "key" : "bearerToken",
+    "value" : "",
+    "type" : "string"
+  }, {
+    "key" : "resourceId",
+    "value" : "sample-id",
+    "type" : "string"
+  }, {
+    "key" : "clientId",
+    "value" : "generated-service-client",
+    "type" : "string"
+  }, {
+    "key" : "clientSecret",
+    "value" : "change-me",
+    "type" : "string"
+  }, {
+    "key" : "scope",
+    "value" : "api.read api.write",
+    "type" : "string"
+  } ],
+  "item" : [ {
+    "name" : "Health",
+    "item" : [ {
+      "name" : "Health",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/health",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "health" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/health",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "health" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    }, {
+      "name" : "Liveness",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/health/liveness",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "health", "liveness" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/health/liveness",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "health", "liveness" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    }, {
+      "name" : "Readiness",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/health/readiness",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "health", "readiness" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/health/readiness",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "health", "readiness" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    }, {
+      "name" : "Metrics",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/metrics",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "metrics" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/metrics",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "metrics" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    }, {
+      "name" : "Prometheus",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/prometheus",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "prometheus" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/prometheus",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "prometheus" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    } ]
+  }, {
+    "name" : "Security",
+    "item" : [ {
+      "name" : "Get OAuth2 Token",
+      "request" : {
+        "auth" : {
+          "type" : "basic",
+          "basic" : [ {
+            "key" : "username",
+            "value" : "{{clientId}}",
+            "type" : "string"
+          }, {
+            "key" : "password",
+            "value" : "{{clientSecret}}",
+            "type" : "string"
+          } ]
+        },
+        "method" : "POST",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/x-www-form-urlencoded"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "body" : {
+          "mode" : "urlencoded",
+          "urlencoded" : [ {
+            "key" : "grant_type",
+            "value" : "client_credentials",
+            "type" : "text"
+          }, {
+            "key" : "scope",
+            "value" : "{{scope}}",
+            "type" : "text"
+          } ]
+        },
+        "url" : {
+          "raw" : "{{baseUrl}}/oauth2/token",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "oauth2", "token" ]
+        }
+      },
+      "event" : [ {
+        "listen" : "test",
+        "script" : {
+          "type" : "text/javascript",
+          "exec" : [ "const json = pm.response.json();", "if (json.access_token) {", "  pm.collectionVariables.set(\"bearerToken\", json.access_token);", "}" ]
+        }
+      } ]
+    } ]
+  }, {
+    "name" : "Sagas",
+    "item" : [ {
+      "name" : "Define a new saga (distributed transaction)",
+      "request" : {
+        "method" : "POST",
+        "header" : [ {
+          "key" : "Authorization",
+          "value" : "Bearer {{bearerToken}}"
+        }, {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/sagas",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "sagas" ]
+        },
+        "body" : {
+          "mode" : "raw",
+          "raw" : "{\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"description\" : \"Complete order fulfillment across payment, inventory, and shipping.\",\n  \"steps\" : \"sample-steps\",\n  \"failurePolicy\" : \"COMPENSATE_ALL\",\n  \"maxTotalDurationSeconds\" : 300,\n  \"owner\" : \"commerce-team\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+          "options" : {
+            "raw" : {
+              "language" : "json"
+            }
+          }
+        }
+      },
+      "response" : [ {
+        "name" : "Created",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/sagas",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "sagas" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"description\" : \"Complete order fulfillment across payment, inventory, and shipping.\",\n  \"steps\" : \"sample-steps\",\n  \"failurePolicy\" : \"COMPENSATE_ALL\",\n  \"maxTotalDurationSeconds\" : 300,\n  \"owner\" : \"commerce-team\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Created",
+        "code" : 201,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"sagaId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"description\" : \"Complete order fulfillment across payment, inventory, and shipping.\",\n  \"status\" : \"ACTIVE\",\n  \"steps\" : [ {\n    \"hasCompensation\" : true,\n    \"stepName\" : \"reserve-inventory\",\n    \"timeoutSeconds\" : 30,\n    \"stepNumber\" : 1,\n    \"serviceName\" : \"inventory-service\"\n  }, {\n    \"hasCompensation\" : true,\n    \"stepName\" : \"reserve-inventory\",\n    \"timeoutSeconds\" : 30,\n    \"stepNumber\" : 1,\n    \"serviceName\" : \"inventory-service\"\n  } ],\n  \"failurePolicy\" : \"COMPENSATE_ALL\",\n  \"maxTotalDurationSeconds\" : 300,\n  \"owner\" : \"commerce-team\",\n  \"notifyChannels\" : [ \"SLACK\" ],\n  \"executionCount30d\" : 4520,\n  \"successRatePercent\" : 98.7,\n  \"averageDurationSeconds\" : 12,\n  \"createdAt\" : 948603367000,\n  \"updatedAt\" : 948603367000\n}"
+      }, {
+        "name" : "Bad Request",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/sagas",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "sagas" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"description\" : \"Complete order fulfillment across payment, inventory, and shipping.\",\n  \"steps\" : \"sample-steps\",\n  \"failurePolicy\" : \"COMPENSATE_ALL\",\n  \"maxTotalDurationSeconds\" : 300,\n  \"owner\" : \"commerce-team\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Bad Request",
+        "code" : 400,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"timestamp\" : \"2026-10-09T10:08:58.977331361Z\",\n  \"status\" : 400,\n  \"code\" : \"request_failed\",\n  \"userMessage\" : \"Request failed\",\n  \"systemMessage\" : \"Sample error for documentation purposes\",\n  \"path\" : \"{{baseUrl}}\",\n  \"correlationId\" : \"sample-correlation-id\"\n}"
+      } ]
+    } ]
+  }, {
+    "name" : "Executions",
+    "item" : [ {
+      "name" : "Start a new saga execution",
+      "request" : {
+        "method" : "POST",
+        "header" : [ {
+          "key" : "Authorization",
+          "value" : "Bearer {{bearerToken}}"
+        }, {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/executions",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "executions" ]
+        },
+        "body" : {
+          "mode" : "raw",
+          "raw" : "{\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"input\" : {\n    \"orderId\" : \"ORD-12345\",\n    \"sku\" : \"SKU-ABC\",\n    \"quantity\" : 2,\n    \"customerId\" : \"CUST-789\",\n    \"amount\" : 149.99\n  },\n  \"idempotencyKey\" : \"order-ORD-12345-2026-10-09\",\n  \"priority\" : \"HIGH\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+          "options" : {
+            "raw" : {
+              "language" : "json"
+            }
+          }
+        }
+      },
+      "response" : [ {
+        "name" : "Accepted",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/executions",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "executions" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"input\" : {\n    \"orderId\" : \"ORD-12345\",\n    \"sku\" : \"SKU-ABC\",\n    \"quantity\" : 2,\n    \"customerId\" : \"CUST-789\",\n    \"amount\" : 149.99\n  },\n  \"idempotencyKey\" : \"order-ORD-12345-2026-10-09\",\n  \"priority\" : \"HIGH\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Accepted",
+        "code" : 202,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"executionId\" : \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n  \"sagaId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"status\" : \"RUNNING\",\n  \"idempotencyKey\" : \"order-ORD-12345-2026-10-09\",\n  \"input\" : {\n    \"orderId\" : \"ORD-12345\",\n    \"sku\" : \"SKU-ABC\",\n    \"quantity\" : 2\n  },\n  \"currentStep\" : 2,\n  \"totalSteps\" : 4,\n  \"progressPercent\" : 50,\n  \"startedAt\" : 948603367000,\n  \"completedAt\" : 948603367000,\n  \"durationSeconds\" : 8,\n  \"steps\" : [ {\n    \"completedAt\" : 948603367000,\n    \"responseBody\" : {\n      \"reservationId\" : \"RES-98765\"\n    },\n    \"compensationStatus\" : \"NOT_REQUIRED\",\n    \"compensationDurationMs\" : 0,\n    \"startedAt\" : 948603367000,\n    \"serviceName\" : \"inventory-service\",\n    \"responseStatus\" : 201,\n    \"error\" : \"error\",\n    \"compensationError\" : \"compensationError\",\n    \"stepName\" : \"reserve-inventory\",\n    \"requestUrl\" : \"https://inventory-service.internal/v1/reservations\",\n    \"stepNumber\" : 1,\n    \"durationMs\" : 245,\n    \"status\" : \"COMPLETED\",\n    \"attempts\" : 1\n  }, {\n    \"completedAt\" : 948603367000,\n    \"responseBody\" : {\n      \"reservationId\" : \"RES-98765\"\n    },\n    \"compensationStatus\" : \"NOT_REQUIRED\",\n    \"compensationDurationMs\" : 0,\n    \"startedAt\" : 948603367000,\n    \"serviceName\" : \"inventory-service\",\n    \"responseStatus\" : 201,\n    \"error\" : \"error\",\n    \"compensationError\" : \"compensationError\",\n    \"stepName\" : \"reserve-inventory\",\n    \"requestUrl\" : \"https://inventory-service.internal/v1/reservations\",\n    \"stepNumber\" : 1,\n    \"durationMs\" : 245,\n    \"status\" : \"COMPLETED\",\n    \"attempts\" : 1\n  } ],\n  \"outputContext\" : {\n    \"reservationId\" : \"RES-98765\",\n    \"paymentId\" : \"PAY-11111\"\n  },\n  \"failureReason\" : \"failureReason\",\n  \"cancellationReason\" : \"cancellationReason\",\n  \"auditReference\" : \"audit://saga-orchestrator/exec-a1b2c3d4\"\n}"
+      }, {
+        "name" : "Bad Request",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/executions",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "executions" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"input\" : {\n    \"orderId\" : \"ORD-12345\",\n    \"sku\" : \"SKU-ABC\",\n    \"quantity\" : 2,\n    \"customerId\" : \"CUST-789\",\n    \"amount\" : 149.99\n  },\n  \"idempotencyKey\" : \"order-ORD-12345-2026-10-09\",\n  \"priority\" : \"HIGH\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Bad Request",
+        "code" : 400,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"timestamp\" : \"2026-10-09T10:08:58.977762470Z\",\n  \"status\" : 400,\n  \"code\" : \"request_failed\",\n  \"userMessage\" : \"Request failed\",\n  \"systemMessage\" : \"Sample error for documentation purposes\",\n  \"path\" : \"{{baseUrl}}\",\n  \"correlationId\" : \"sample-correlation-id\"\n}"
+      } ]
+    }, {
+      "name" : "Get the live status of a saga execution",
+      "request" : {
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Authorization",
+          "value" : "Bearer {{bearerToken}}"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/executions/9c8f1a3b-6d7e-4a12-8f5e-123456789abc?includeStepOutputs=true",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "executions", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc" ],
+          "query" : [ {
+            "key" : "includeStepOutputs",
+            "value" : true
+          } ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/executions/9c8f1a3b-6d7e-4a12-8f5e-123456789abc?includeStepOutputs=true",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "executions", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc" ],
+            "query" : [ {
+              "key" : "includeStepOutputs",
+              "value" : true
+            } ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"executionId\" : \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n  \"sagaId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"status\" : \"RUNNING\",\n  \"idempotencyKey\" : \"order-ORD-12345-2026-10-09\",\n  \"input\" : {\n    \"orderId\" : \"ORD-12345\",\n    \"sku\" : \"SKU-ABC\",\n    \"quantity\" : 2\n  },\n  \"currentStep\" : 2,\n  \"totalSteps\" : 4,\n  \"progressPercent\" : 50,\n  \"startedAt\" : 948603367000,\n  \"completedAt\" : 948603367000,\n  \"durationSeconds\" : 8,\n  \"steps\" : [ {\n    \"completedAt\" : 948603367000,\n    \"responseBody\" : {\n      \"reservationId\" : \"RES-98765\"\n    },\n    \"compensationStatus\" : \"NOT_REQUIRED\",\n    \"compensationDurationMs\" : 0,\n    \"startedAt\" : 948603367000,\n    \"serviceName\" : \"inventory-service\",\n    \"responseStatus\" : 201,\n    \"error\" : \"error\",\n    \"compensationError\" : \"compensationError\",\n    \"stepName\" : \"reserve-inventory\",\n    \"requestUrl\" : \"https://inventory-service.internal/v1/reservations\",\n    \"stepNumber\" : 1,\n    \"durationMs\" : 245,\n    \"status\" : \"COMPLETED\",\n    \"attempts\" : 1\n  }, {\n    \"completedAt\" : 948603367000,\n    \"responseBody\" : {\n      \"reservationId\" : \"RES-98765\"\n    },\n    \"compensationStatus\" : \"NOT_REQUIRED\",\n    \"compensationDurationMs\" : 0,\n    \"startedAt\" : 948603367000,\n    \"serviceName\" : \"inventory-service\",\n    \"responseStatus\" : 201,\n    \"error\" : \"error\",\n    \"compensationError\" : \"compensationError\",\n    \"stepName\" : \"reserve-inventory\",\n    \"requestUrl\" : \"https://inventory-service.internal/v1/reservations\",\n    \"stepNumber\" : 1,\n    \"durationMs\" : 245,\n    \"status\" : \"COMPLETED\",\n    \"attempts\" : 1\n  } ],\n  \"outputContext\" : {\n    \"reservationId\" : \"RES-98765\",\n    \"paymentId\" : \"PAY-11111\"\n  },\n  \"failureReason\" : \"failureReason\",\n  \"cancellationReason\" : \"cancellationReason\",\n  \"auditReference\" : \"audit://saga-orchestrator/exec-a1b2c3d4\"\n}"
+      }, {
+        "name" : "Not Found",
+        "originalRequest" : {
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/executions/9c8f1a3b-6d7e-4a12-8f5e-123456789abc?includeStepOutputs=true",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "executions", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc" ],
+            "query" : [ {
+              "key" : "includeStepOutputs",
+              "value" : true
+            } ]
+          }
+        },
+        "status" : "Not Found",
+        "code" : 404,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"timestamp\" : \"2026-10-09T10:08:58.977965343Z\",\n  \"status\" : 404,\n  \"code\" : \"request_failed\",\n  \"userMessage\" : \"Request failed\",\n  \"systemMessage\" : \"Sample error for documentation purposes\",\n  \"path\" : \"{{baseUrl}}\",\n  \"correlationId\" : \"sample-correlation-id\"\n}"
+      } ]
+    }, {
+      "name" : "Cancel a running saga and trigger compensations",
+      "request" : {
+        "method" : "POST",
+        "header" : [ {
+          "key" : "Authorization",
+          "value" : "Bearer {{bearerToken}}"
+        }, {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/executions/9c8f1a3b-6d7e-4a12-8f5e-123456789abc/cancel",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "executions", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc", "cancel" ]
+        },
+        "body" : {
+          "mode" : "raw",
+          "raw" : "{\n  \"reason\" : \"Customer requested order cancellation before shipment.\",\n  \"compensateCompletedSteps\" : true,\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+          "options" : {
+            "raw" : {
+              "language" : "json"
+            }
+          }
+        }
+      },
+      "response" : [ {
+        "name" : "Accepted",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/executions/9c8f1a3b-6d7e-4a12-8f5e-123456789abc/cancel",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "executions", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc", "cancel" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"reason\" : \"Customer requested order cancellation before shipment.\",\n  \"compensateCompletedSteps\" : true,\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Accepted",
+        "code" : 202,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"executionId\" : \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n  \"sagaId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n  \"sagaName\" : \"order-to-cash-flow\",\n  \"status\" : \"RUNNING\",\n  \"idempotencyKey\" : \"order-ORD-12345-2026-10-09\",\n  \"input\" : {\n    \"orderId\" : \"ORD-12345\",\n    \"sku\" : \"SKU-ABC\",\n    \"quantity\" : 2\n  },\n  \"currentStep\" : 2,\n  \"totalSteps\" : 4,\n  \"progressPercent\" : 50,\n  \"startedAt\" : 948603367000,\n  \"completedAt\" : 948603367000,\n  \"durationSeconds\" : 8,\n  \"steps\" : [ {\n    \"completedAt\" : 948603367000,\n    \"responseBody\" : {\n      \"reservationId\" : \"RES-98765\"\n    },\n    \"compensationStatus\" : \"NOT_REQUIRED\",\n    \"compensationDurationMs\" : 0,\n    \"startedAt\" : 948603367000,\n    \"serviceName\" : \"inventory-service\",\n    \"responseStatus\" : 201,\n    \"error\" : \"error\",\n    \"compensationError\" : \"compensationError\",\n    \"stepName\" : \"reserve-inventory\",\n    \"requestUrl\" : \"https://inventory-service.internal/v1/reservations\",\n    \"stepNumber\" : 1,\n    \"durationMs\" : 245,\n    \"status\" : \"COMPLETED\",\n    \"attempts\" : 1\n  }, {\n    \"completedAt\" : 948603367000,\n    \"responseBody\" : {\n      \"reservationId\" : \"RES-98765\"\n    },\n    \"compensationStatus\" : \"NOT_REQUIRED\",\n    \"compensationDurationMs\" : 0,\n    \"startedAt\" : 948603367000,\n    \"serviceName\" : \"inventory-service\",\n    \"responseStatus\" : 201,\n    \"error\" : \"error\",\n    \"compensationError\" : \"compensationError\",\n    \"stepName\" : \"reserve-inventory\",\n    \"requestUrl\" : \"https://inventory-service.internal/v1/reservations\",\n    \"stepNumber\" : 1,\n    \"durationMs\" : 245,\n    \"status\" : \"COMPLETED\",\n    \"attempts\" : 1\n  } ],\n  \"outputContext\" : {\n    \"reservationId\" : \"RES-98765\",\n    \"paymentId\" : \"PAY-11111\"\n  },\n  \"failureReason\" : \"failureReason\",\n  \"cancellationReason\" : \"cancellationReason\",\n  \"auditReference\" : \"audit://saga-orchestrator/exec-a1b2c3d4\"\n}"
+      }, {
+        "name" : "Bad Request",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/executions/9c8f1a3b-6d7e-4a12-8f5e-123456789abc/cancel",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "executions", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc", "cancel" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"reason\" : \"Customer requested order cancellation before shipment.\",\n  \"compensateCompletedSteps\" : true,\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Bad Request",
+        "code" : 400,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"timestamp\" : \"2026-10-09T10:08:58.978176071Z\",\n  \"status\" : 400,\n  \"code\" : \"request_failed\",\n  \"userMessage\" : \"Request failed\",\n  \"systemMessage\" : \"Sample error for documentation purposes\",\n  \"path\" : \"{{baseUrl}}\",\n  \"correlationId\" : \"sample-correlation-id\"\n}"
+      } ]
+    } ]
+  } ]
+}
