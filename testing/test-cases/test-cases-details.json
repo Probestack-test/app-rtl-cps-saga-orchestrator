@@ -1,0 +1,150 @@
+{
+  "artifactId" : "saga-orchestrator",
+  "generatedAt" : "2026-10-09T10:08:59.491541789Z",
+  "testCaseCount" : 12,
+  "testCases" : [ {
+    "category" : "Positive",
+    "name" : "[POSITIVE] POST /sagas",
+    "description" : "Happy path: valid request should return 201",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/sagas",
+      "path" : [ "sagas" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 201\", function() { if(pm.response.code !== 201) throw new Error(\"Expected 201 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Positive",
+    "name" : "[POSITIVE] POST /executions",
+    "description" : "Happy path: valid request should return 202",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/executions",
+      "path" : [ "executions" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 202\", function() { if(pm.response.code !== 202) throw new Error(\"Expected 202 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Positive",
+    "name" : "[POSITIVE] GET /executions/{executionId}",
+    "description" : "Happy path: valid request should return 200",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/executions/{executionId}",
+      "path" : [ "executions", "{executionId}" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 200\", function() { if(pm.response.code !== 200) throw new Error(\"Expected 200 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Positive",
+    "name" : "[POSITIVE] POST /executions/{executionId}/cancel",
+    "description" : "Happy path: valid request should return 202",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/executions/{executionId}/cancel",
+      "path" : [ "executions", "{executionId}", "cancel" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 202\", function() { if(pm.response.code !== 202) throw new Error(\"Expected 202 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] GET /executions/{executionId}",
+    "description" : "Missing required path parameter: executionId",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/executions/{executionId}",
+      "path" : [ "executions", "{executionId}" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] GET /executions/{executionId}",
+    "description" : "Invalid type for parameter executionId (expected string)",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/executions/{executionId}",
+      "path" : [ "executions", "{executionId}" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] POST /executions/{executionId}/cancel",
+    "description" : "Missing required path parameter: executionId",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/executions/{executionId}/cancel",
+      "path" : [ "executions", "{executionId}", "cancel" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] POST /executions/{executionId}/cancel",
+    "description" : "Invalid type for parameter executionId (expected string)",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/executions/{executionId}/cancel",
+      "path" : [ "executions", "{executionId}", "cancel" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Performance",
+    "name" : "[PERFORMANCE] POST /sagas",
+    "description" : "Performance: response time should be < 2000ms",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/sagas",
+      "path" : [ "sagas" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Response time < 2000 ms\", function() { if(pm.response.responseTime > 2000) throw new Error(\"Response time \" + pm.response.responseTime + \"ms exceeds 2000ms\"); });" ]
+  }, {
+    "category" : "Performance",
+    "name" : "[PERFORMANCE] POST /executions",
+    "description" : "Performance: response time should be < 2000ms",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/executions",
+      "path" : [ "executions" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Response time < 2000 ms\", function() { if(pm.response.responseTime > 2000) throw new Error(\"Response time \" + pm.response.responseTime + \"ms exceeds 2000ms\"); });" ]
+  }, {
+    "category" : "Performance",
+    "name" : "[PERFORMANCE] GET /executions/{executionId}",
+    "description" : "Performance: response time should be < 2000ms",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/executions/{executionId}",
+      "path" : [ "executions", "{executionId}" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Response time < 2000 ms\", function() { if(pm.response.responseTime > 2000) throw new Error(\"Response time \" + pm.response.responseTime + \"ms exceeds 2000ms\"); });" ]
+  }, {
+    "category" : "Performance",
+    "name" : "[PERFORMANCE] POST /executions/{executionId}/cancel",
+    "description" : "Performance: response time should be < 2000ms",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/executions/{executionId}/cancel",
+      "path" : [ "executions", "{executionId}", "cancel" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Response time < 2000 ms\", function() { if(pm.response.responseTime > 2000) throw new Error(\"Response time \" + pm.response.responseTime + \"ms exceeds 2000ms\"); });" ]
+  } ]
+}
